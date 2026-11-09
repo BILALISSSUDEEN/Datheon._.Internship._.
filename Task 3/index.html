@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1728">
+  <meta name="description" content="Live weather conditions and a five-day forecast for cities around the world.">
+  <title>Atmos — Weather & Climate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="weather-clear">
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Atmos home"><span class="brand-symbol">✳</span> atmos<span class="brand-dot">.</span></a>
+      <div class="topbar-center"><span class="live-dot"></span> LIVE WEATHER <span class="top-divider">/</span> GLOBAL CLIMATE</div>
+      <div class="topbar-right"><span id="localClock">--:--</span><button id="unitToggle" class="unit-toggle" aria-label="Switch temperature unit">°C <span>/</span> °F</button></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL WEATHER STATION</p>
+          <h1>Weather, <span>without</span><br>the guesswork.</h1>
+          <p class="hero-description">Real-time conditions and the forecast that helps you plan what’s next.</p>
+        </div>
+        <form id="searchForm" class="search-form">
+          <span class="search-icon">⌕</span>
+          <input id="cityInput" type="search" autocomplete="off" placeholder="Search any city around the world..." aria-label="Search city" value="London">
+          <button type="submit">Search <span>→</span></button>
+        </form>
+        <div class="quick-cities"><span>QUICK SEARCH</span><button data-city="New York">New York</button><button data-city="Tokyo">Tokyo</button><button data-city="Dubai">Dubai</button><button data-city="Mumbai">Mumbai</button></div>
+      </section>
+
+      <section id="errorPanel" class="error-panel" role="alert" hidden><span>!</span><div><strong id="errorTitle">Something went wrong</strong><p id="errorMessage">Please try again.</p></div><button id="dismissError" aria-label="Dismiss error">×</button></section>
+
+      <section id="weatherContent" class="weather-content" aria-live="polite">
+        <div class="loading-state" id="loadingState"><span class="loader"></span><strong>Reading the atmosphere...</strong><small>Fetching the latest weather data</small></div>
+        <div id="weatherDashboard" hidden>
+          <div class="location-heading">
+            <div><p class="eyebrow">CURRENT CONDITIONS</p><h2><span class="pin">⌖</span> <span id="cityName">London</span><span class="country-code" id="countryCode">GB</span></h2><p id="currentDate" class="date-line">—</p></div>
+            <div class="updated-label"><span class="live-dot"></span> LIVE DATA <small id="updatedAt">Updated just now</small></div>
+          </div>
+
+          <div class="main-grid">
+            <article class="current-card glass-card">
+              <div class="current-top"><span class="card-label">RIGHT NOW</span><span class="condition-pill" id="conditionPill">Clear sky</span></div>
+              <div class="current-weather">
+                <div class="temperature-wrap"><div class="temperature" id="temperature">--<sup>°</sup></div><div class="feels-like">Feels like <strong id="feelsLike">--°</strong></div></div>
+                <div class="weather-art" id="weatherArt" aria-hidden="true"><span class="sun-core"></span><span class="sun-ray ray-one"></span><span class="sun-ray ray-two"></span><span class="sun-ray ray-three"></span><span class="sun-ray ray-four"></span></div>
+              </div>
+              <div class="condition-description" id="conditionDescription">Loading conditions</div>
+              <div class="current-bottom"><div><span>☀</span> Sunrise <strong id="sunrise">--:--</strong></div><div><span>☾</span> Sunset <strong id="sunset">--:--</strong></div><div><span>◷</span> Local time <strong id="cityTime">--:--</strong></div></div>
+            </article>
+
+            <article class="metrics-card glass-card">
+              <div class="card-heading"><div><span class="card-label">ATMOSPHERIC DATA</span><h3>Weather metrics</h3></div><span class="metric-live">● LIVE</span></div>
+              <div class="metrics-grid">
+                <div class="metric"><span class="metric-icon humidity">◌</span><div><small>Humidity</small><strong id="humidity">--%</strong><em>Relative moisture</em></div></div>
+                <div class="metric"><span class="metric-icon wind">↗</span><div><small>Wind speed</small><strong id="wind">-- km/h</strong><em id="windDirection">Wind conditions</em></div></div>
+                <div class="metric"><span class="metric-icon pressure">◉</span><div><small>Pressure</small><strong id="pressure">-- hPa</strong><em>Sea-level pressure</em></div></div>
+                <div class="metric"><span class="metric-icon visibility">◎</span><div><small>Visibility</small><strong id="visibility">-- km</strong><em>Viewing distance</em></div></div>
+                <div class="metric"><span class="metric-icon cloud">☁</span><div><small>Cloud cover</small><strong id="clouds">--%</strong><em>Sky coverage</em></div></div>
+                <div class="metric"><span class="metric-icon uv">◐</span><div><small>Wind gust</small><strong id="gust">-- km/h</strong><em>Peak wind speed</em></div></div>
+              </div>
+            </article>
+          </div>
+
+          <section class="forecast-section">
+            <div class="section-title"><div><p class="eyebrow">PLAN AHEAD</p><h3>5-day forecast</h3></div><span class="forecast-note">Daily outlook <span>↗</span></span></div>
+            <div class="forecast-grid" id="forecastGrid"></div>
+          </section>
+          <div class="data-footer"><span><i></i> Weather data provided by OpenWeather</span><span id="coordinates">Coordinates: --</span><span>Refresh a city anytime to update conditions</span></div>
+        </div>
+      </section>
+    </main>
+    <footer><span class="footer-brand">atmos<span>.</span></span><span>Look up. Plan ahead. Go outside.</span><span>Designed for the curious <b>✳</b></span></footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
